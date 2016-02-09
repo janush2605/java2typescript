@@ -9,14 +9,15 @@
 
 	<properties>
 		<java2typescript.version>0.3-SNAPSHOT</java2typescript.version>
-		<maven.compiler.source>1.6</maven.compiler.source>
-		<maven.compiler.target>1.6</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
     	<github.global.server>github</github.global.server>
 	</properties>
 
 	<modules>
 		<module>java2typescript-jackson</module>
 		<module>java2typescript-jaxrs</module>
+		<module>java2typescript-helix</module>
 		<module>java2typescript-maven-plugin</module>
 		<module>sample-web-app-server</module>
 		<module>sample-web-app-client</module>
