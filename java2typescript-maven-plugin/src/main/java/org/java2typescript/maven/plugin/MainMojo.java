@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.google.common.collect.FluentIterable.from;
+import static java.util.Arrays.asList;
 
 /**
  * Generate typescript file out of RESt service definition
@@ -62,18 +63,37 @@ public class MainMojo extends AbstractMojo {
     private String complexTypeClassName;
 
     /**
+     * List of full package names of the Complex Type class and names of their modules
+     *
+     * @optional
+     * @parameter alias="declatationConfigs"
+     * expression="${j2ts.declatationConfigs}"
+     */
+    private List<DeclatationConfig> declatationConfigs;
+
+    /**
+     * Full package names of the Complex Type class and names of their modules
+     *
+     * @optional
+     * @parameter alias="declatationConfig"
+     * expression="${j2ts.declatationConfig}"
+     */
+    private DeclatationConfig declatationConfig;
+
+    /**
      * Full package name of the Complex Type class
      *
-     * @required
+     * @optional
      * @parameter alias="dtoPackage"
      * expression="${j2ts.dtoClass}"
      */
     private String complexTypePackage;
 
+
     /**
      * Name of output module (ts,js)
      *
-     * @required
+     * @optional
      * @parameter alias="moduleName"
      * expression="${j2ts.moduleName}"
      */
@@ -105,53 +125,41 @@ public class MainMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
 
         try {
-
-            // Descriptor for service
-            /*Class<?> serviceClass = Class.forName(restServiceClassName);
-            ServiceDescriptorGenerator descGen = new ServiceDescriptorGenerator(Lists.newArrayList(serviceClass));*/
-
-            //Class<?> dtoClass = Class.forName(complexTypeClassName);
             ObjectMapper mapper = new ObjectMapper();
             SimpleModule module = new SimpleModule("custom-mapping");
             mapper.registerModule(module);
 
             Configuration configuration = new Configuration();
             configuration.setGeneratePublicMethods(false);
+            ClassLoader currentLoader = Thread.currentThread().getContextClassLoader();
+            ClassPath classPath = ClassPath.from(currentLoader);
 
             // To Typescript
-            {
-                Writer writer = createFileAndGetWriter(tsOutFolder, moduleName + ".d.ts");
-
-                /*Module tsModule = descGen.generateTypeScript(moduleName);
-                tsModule.write(writer);*/
-
-                ClassLoader currentLoader = Thread.currentThread().getContextClassLoader();
-                ClassPath classPath = ClassPath.from(currentLoader);
-                Set<ClassPath.ClassInfo> classInfos = classPath.getTopLevelClassesRecursive(complexTypePackage);
-                List<Class<?>> classes = from(classInfos)
-                        .transform((Function<ClassPath.ClassInfo, Class<?>>) (classInfo) -> {
-                            System.out.println(classInfo.getName());
-                            return classInfo.load();
-                        })
-                        .toList();
-
-                DefinitionGenerator definitionGenerator = new DefinitionGenerator(mapper);
-                Module dtoTSModule = definitionGenerator.generateTypeScript(moduleName, classes, configuration, ComplexType.class);
-                dtoTSModule.write(writer);
-
-                writer.close();
+            for (DeclatationConfig declatationConfig : declatationConfigs) {
+                generateTypescriptDeclaration(mapper, configuration, classPath, declatationConfig);
             }
-
-            // To JS
-            {
-                /*Writer outFileWriter = createFileAndGetWriter(jsOutFolder, moduleName + ".js");
-                descGen.generateJavascript(moduleName, outFileWriter);
-                outFileWriter.close();*/
-            }
-
         } catch (Exception e) {
             throw new MojoExecutionException(e.getMessage(), e);
         }
+    }
+
+    private void generateTypescriptDeclaration(ObjectMapper mapper, Configuration configuration, ClassPath classPath, DeclatationConfig declatationConfig) throws IOException {
+        Writer writer = createFileAndGetWriter(tsOutFolder, declatationConfig.getModuleName() + ".d.ts");
+        Set<ClassPath.ClassInfo> classInfos = classPath.getTopLevelClassesRecursive(declatationConfig.getComplexTypePackage());
+        List<Class<?>> classes = from(classInfos)
+                .transform((Function<ClassPath.ClassInfo, Class<?>>) (classInfo) -> {
+                    System.out.println(classInfo.getName());
+                    return classInfo.load();
+                })
+                .toList();
+
+        DefinitionGenerator definitionGenerator = new DefinitionGenerator(mapper);
+        Module dtoTSModule = definitionGenerator.generateTypeScript(declatationConfig.getModuleName(), classes, configuration, ComplexType.class);
+        if (declatationConfig.getReferenceDeclaration() != null){
+            dtoTSModule.setReferencePaths(asList(declatationConfig.getReferenceDeclaration()));
+        }
+        dtoTSModule.write(writer);
+        writer.close();
     }
 
     private Writer createFileAndGetWriter(File folder, String fileName) throws IOException {

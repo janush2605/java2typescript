@@ -14,6 +14,10 @@ public class InternalModuleFormatWriter extends ExternalModuleFormatWriter {
 
     @Override
     public void write(Module module, Writer writer) throws IOException {
+        for (String referencePath : module.getReferencePaths()) {
+            writer.write(format("///<reference path=\"%s\"/>\n", referencePath));
+        }
+        writer.write("\n");
         writer.write(format("export module %s {\n\n", module.getName()));
         preferences.increaseIndentation();
         writeModuleContent(module, writer);

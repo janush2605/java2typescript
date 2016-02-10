@@ -21,7 +21,9 @@ import java2typescript.jackson.module.writer.InternalModuleFormatWriter;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Module {
@@ -31,6 +33,8 @@ public class Module {
     private Map<String, AbstractNamedType> namedTypes = new HashMap<String, AbstractNamedType>();
 
     private Map<String, AbstractType> vars = new HashMap<String, AbstractType>();
+
+    private List<String> referencePaths = new ArrayList<>();
 
     public Module() {
     }
@@ -55,8 +59,15 @@ public class Module {
         return name;
     }
 
+    public List<String> getReferencePaths() {
+        return referencePaths;
+    }
+
+    public void setReferencePaths(List<String> referencePaths) {
+        this.referencePaths = referencePaths;
+    }
+
     public void write(Writer writer) throws IOException {
         new InternalModuleFormatWriter().write(this, writer);
     }
-
 }
