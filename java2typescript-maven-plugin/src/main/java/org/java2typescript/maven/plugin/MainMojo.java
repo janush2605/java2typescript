@@ -147,10 +147,7 @@ public class MainMojo extends AbstractMojo {
         Writer writer = createFileAndGetWriter(tsOutFolder, declatationConfig.getModuleName() + ".d.ts");
         Set<ClassPath.ClassInfo> classInfos = classPath.getTopLevelClassesRecursive(declatationConfig.getComplexTypePackage());
         List<Class<?>> classes = from(classInfos)
-                .transform((Function<ClassPath.ClassInfo, Class<?>>) (classInfo) -> {
-                    System.out.println(classInfo.getName());
-                    return classInfo.load();
-                })
+                .transform((Function<ClassPath.ClassInfo, Class<?>>) (classInfo) -> classInfo.load())
                 .toList();
 
         DefinitionGenerator definitionGenerator = new DefinitionGenerator(mapper);

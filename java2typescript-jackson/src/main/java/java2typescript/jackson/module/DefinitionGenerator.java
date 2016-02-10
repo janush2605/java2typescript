@@ -72,6 +72,7 @@ public class DefinitionGenerator {
         for (Class<?> clazz : classes) {
             Annotation annotation = clazz.getAnnotation(classAnnotation);
             if (annotation != null) {
+                System.out.println(clazz.getPackage().getName() + "." + clazz.getName());
                 mapper.acceptJsonFormatVisitor(clazz, visitor);
             }
         }
