@@ -1,5 +1,5 @@
 /*
- * declatationConfig
+ * DeclarationConfig2
  * Date of creation: 2016-02-10
  * 
  * Copyright (c) CompuGROUP Software GmbH,
@@ -13,8 +13,7 @@ package org.java2typescript.maven.plugin;
 /**
  * @author £ukasz Janczara, PL
  */
-public class declatationConfig {
-
+public class DeclarationConfig2 {
     private String complexTypePackage;
 
     private String moduleName;
@@ -23,10 +22,10 @@ public class declatationConfig {
 
     private boolean generateExternalClasses;
 
-    public declatationConfig() {
+    public DeclarationConfig2() {
     }
 
-    public declatationConfig(String complexTypePackage, String moduleName) {
+    public DeclarationConfig2(String complexTypePackage, String moduleName) {
         this.complexTypePackage = complexTypePackage;
         this.moduleName = moduleName;
     }
