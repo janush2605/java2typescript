@@ -23,7 +23,7 @@ export module modName {
         stringArrayList: string[];
         booleanCollection: boolean[];
         _enum: ChangedEnumName;
-        aMethod(param0: boolean, param1: string): string;
+        aMethod(param0:boolean, param1:string): string;
     }
 
 }

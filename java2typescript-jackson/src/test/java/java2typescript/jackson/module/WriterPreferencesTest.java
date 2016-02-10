@@ -1,98 +1,97 @@
 package java2typescript.jackson.module;
 
+import java2typescript.jackson.module.grammar.Module;
+import java2typescript.jackson.module.util.ExpectedOutputChecker;
+import java2typescript.jackson.module.util.TestUtil;
+import java2typescript.jackson.module.writer.ExternalModuleFormatWriter;
+import java2typescript.jackson.module.writer.InternalModuleFormatWriter;
+import org.junit.Test;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
-import java2typescript.jackson.module.grammar.Module;
-import java2typescript.jackson.module.util.ExpectedOutputChecker;
-import java2typescript.jackson.module.util.TestUtil;
-import java2typescript.jackson.module.writer.ExternalModuleFormatWriter;
-import java2typescript.jackson.module.writer.InternalModuleFormatWriter;
-
 /**
  * @author Ats Uiboupin
  */
 public class WriterPreferencesTest {
 
-	static class TestClass {
-		public String someField;
-		public Enum someEnum;
-	}
+    static class TestClass {
+        public String someField;
+        public Enum someEnum;
+    }
 
-	static enum Enum {
-		VAL1, VAL2
-	}
+    static enum Enum {
+        VAL1, VAL2
+    }
 
-	static class Dummy {
-		public String _String;
-	}
-	
-	static class Constants {
-		public static final boolean MY_CONSTANT_BOOLEAN = true;
-	}
-	
+    static class Dummy {
+        public String _String;
+    }
 
-	@Test
-	public void enumToEnumPattern() throws IOException {
-		// Arrange
-		ExternalModuleFormatWriter mWriter = new ExternalModuleFormatWriter();
-		mWriter.preferences.useEnumPattern();
+    static class Constants {
+        public static final boolean MY_CONSTANT_BOOLEAN = true;
+    }
 
-		Module module = TestUtil.createTestModule(null, Enum.class);
-		Writer out = new StringWriter();
 
-		// Act
-		mWriter.write(module, out);
-		out.close();
-		System.out.println(out);
+    @Test
+    public void enumToEnumPattern() throws IOException {
+        // Arrange
+        ExternalModuleFormatWriter mWriter = new ExternalModuleFormatWriter();
+        mWriter.preferences.useEnumPattern();
 
-		// Assert
-		ExpectedOutputChecker.checkOutputFromFile(out);
-	}
+        Module module = TestUtil.createTestModule(null, Enum.class);
+        Writer out = new StringWriter();
 
-	@Test
-	public void enumPatternBaseNotAddedWhenNotNeeded() throws IOException {
-		// Arrange
-		ExternalModuleFormatWriter mWriter = new ExternalModuleFormatWriter();
-		mWriter.preferences.useEnumPattern(); // should be ignored when no enums found
+        // Act
+        mWriter.write(module, out);
+        out.close();
+        System.out.println(out);
 
-		Module module = TestUtil.createTestModule(null, Dummy.class);
-		Writer out = new StringWriter();
+        // Assert
+        ExpectedOutputChecker.checkOutputFromFile(out);
+    }
 
-		// Act
-		mWriter.write(module, out);
-		out.close();
-		System.out.println(out);
+    @Test
+    public void enumPatternBaseNotAddedWhenNotNeeded() throws IOException {
+        // Arrange
+        ExternalModuleFormatWriter mWriter = new ExternalModuleFormatWriter();
+        mWriter.preferences.useEnumPattern(); // should be ignored when no enums found
 
-		// Assert
-		ExpectedOutputChecker.checkOutputFromFile(out);
-	}
+        Module module = TestUtil.createTestModule(null, Dummy.class);
+        Writer out = new StringWriter();
 
-	@Test
-	public void indentWithTabs() throws IOException {
-		// Arrange
-		InternalModuleFormatWriter writer = new InternalModuleFormatWriter();
-		writer.preferences.setIndentationStep("\t"); // custom indentation
-		writer.preferences.useEnumPattern();
+        // Act
+        mWriter.write(module, out);
+        out.close();
+        System.out.println(out);
 
-		Configuration conf = null; // default conf
-		Module module = TestUtil.createTestModule(conf, TestClass.class);
-		List<Class<?>> toConvert = new ArrayList<Class<?>>();
-		toConvert.add(Constants.class);
-		new StaticFieldExporter(module, conf).export(toConvert);
-		Writer out = new StringWriter();
+        // Assert
+        ExpectedOutputChecker.checkOutputFromFile(out);
+    }
 
-		// Act
-		writer.write(module, out);
-		out.close();
-		System.out.println(out);
+    @Test
+    public void indentWithTabs() throws IOException {
+        // Arrange
+        InternalModuleFormatWriter writer = new InternalModuleFormatWriter();
+        writer.preferences.setIndentationStep("\t"); // custom indentation
+        writer.preferences.useEnumPattern();
 
-		// Assert
-		ExpectedOutputChecker.checkOutputFromFile(out);
-	}
+        Configuration conf = null; // default conf
+        Module module = TestUtil.createTestModule(conf, TestClass.class);
+        List<Class<?>> toConvert = new ArrayList<Class<?>>();
+        toConvert.add(Constants.class);
+        new StaticFieldExporter(module, conf).export(toConvert);
+        Writer out = new StringWriter();
+
+        // Act
+        writer.write(module, out);
+        out.close();
+        System.out.println(out);
+
+        // Assert
+        ExpectedOutputChecker.checkOutputFromFile(out);
+    }
 }

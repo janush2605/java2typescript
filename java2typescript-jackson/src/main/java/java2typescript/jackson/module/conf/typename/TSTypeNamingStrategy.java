@@ -7,9 +7,10 @@ import com.fasterxml.jackson.databind.JavaType;
  */
 public interface TSTypeNamingStrategy {
 
-	/**
-	 * @return name of the TypeScript class corresponding to Java class
-	 */
-	String getName(JavaType type);
+    /**
+     * @param type Javatype
+     * @return name of the TypeScript class corresponding to Java class
+     */
+    String getName(JavaType type);
 
 }

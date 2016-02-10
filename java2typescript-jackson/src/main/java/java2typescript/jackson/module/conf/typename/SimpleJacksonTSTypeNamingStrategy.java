@@ -8,19 +8,18 @@ import com.fasterxml.jackson.databind.JavaType;
  */
 public class SimpleJacksonTSTypeNamingStrategy implements TSTypeNamingStrategy {
 
-	public String getName(JavaType type) {
-		Class<?> rawClass = type.getRawClass();
-		JsonTypeName typeName = rawClass.getAnnotation(JsonTypeName.class);
-		if (typeName != null) {
-			return typeName.value();
-		}
-		else {
-			return getName(rawClass);
-		}
-	}
+    public String getName(JavaType type) {
+        Class<?> rawClass = type.getRawClass();
+        JsonTypeName typeName = rawClass.getAnnotation(JsonTypeName.class);
+        if (typeName != null) {
+            return typeName.value();
+        } else {
+            return getName(rawClass);
+        }
+    }
 
-	protected String getName(Class<?> rawClass) {
-		return rawClass.getSimpleName();
-	}
+    protected String getName(Class<?> rawClass) {
+        return rawClass.getSimpleName();
+    }
 
 }
