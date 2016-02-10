@@ -13,7 +13,7 @@ package org.java2typescript.maven.plugin;
 /**
  * @author £ukasz Janczara, PL
  */
-public class DeclarationConfig2 {
+public class DeclarationConfig {
     private String complexTypePackage;
 
     private String moduleName;
@@ -22,10 +22,10 @@ public class DeclarationConfig2 {
 
     private boolean generateExternalClasses;
 
-    public DeclarationConfig2() {
+    public DeclarationConfig() {
     }
 
-    public DeclarationConfig2(String complexTypePackage, String moduleName) {
+    public DeclarationConfig(String complexTypePackage, String moduleName) {
         this.complexTypePackage = complexTypePackage;
         this.moduleName = moduleName;
     }

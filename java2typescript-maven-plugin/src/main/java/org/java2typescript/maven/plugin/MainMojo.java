@@ -69,7 +69,7 @@ public class MainMojo extends AbstractMojo {
      * @parameter alias="declatationConfigs"
      * expression="${j2ts.declatationConfigs}"
      */
-    private List<DeclatationConfig> declatationConfigs;
+    private List<DeclarationConfig> declatationConfigs;
 
     /**
      * Full package names of the Complex Type class and names of their modules
@@ -78,7 +78,7 @@ public class MainMojo extends AbstractMojo {
      * @parameter alias="declatationConfig"
      * expression="${j2ts.declatationConfig}"
      */
-    private DeclatationConfig declatationConfig;
+    private DeclarationConfig declatationConfig;
 
     /**
      * Full package name of the Complex Type class
@@ -135,7 +135,7 @@ public class MainMojo extends AbstractMojo {
             ClassPath classPath = ClassPath.from(currentLoader);
 
             // To Typescript
-            for (DeclatationConfig declatationConfig : declatationConfigs) {
+            for (DeclarationConfig declatationConfig : declatationConfigs) {
                 generateTypescriptDeclaration(mapper, configuration, classPath, declatationConfig);
             }
         } catch (Exception e) {
@@ -143,7 +143,7 @@ public class MainMojo extends AbstractMojo {
         }
     }
 
-    private void generateTypescriptDeclaration(ObjectMapper mapper, Configuration configuration, ClassPath classPath, DeclatationConfig declatationConfig) throws IOException {
+    private void generateTypescriptDeclaration(ObjectMapper mapper, Configuration configuration, ClassPath classPath, DeclarationConfig declatationConfig) throws IOException {
         Writer writer = createFileAndGetWriter(tsOutFolder, declatationConfig.getModuleName() + ".d.ts");
         Set<ClassPath.ClassInfo> classInfos = classPath.getTopLevelClassesRecursive(declatationConfig.getComplexTypePackage());
         List<Class<?>> classes = from(classInfos)
@@ -152,7 +152,7 @@ public class MainMojo extends AbstractMojo {
 
         DefinitionGenerator definitionGenerator = new DefinitionGenerator(mapper);
         Module dtoTSModule = definitionGenerator.generateTypeScript(declatationConfig.getModuleName(), classes, configuration, ComplexType.class);
-        if (declatationConfig.getReferenceDeclaration() != null){
+        if (declatationConfig.getReferenceDeclaration() != null) {
             dtoTSModule.setReferencePaths(asList(declatationConfig.getReferenceDeclaration()));
         }
         dtoTSModule.write(writer);
