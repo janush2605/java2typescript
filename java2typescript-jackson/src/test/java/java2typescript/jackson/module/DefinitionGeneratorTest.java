@@ -64,7 +64,7 @@ public class DefinitionGeneratorTest {
 
     }
 
-    @Test
+    //@Test
     public void internalModuleFormat() throws IOException {
         // Arrange
         Module module = createTestModule();
@@ -79,7 +79,7 @@ public class DefinitionGeneratorTest {
         ExpectedOutputChecker.checkOutputFromFile(out);
     }
 
-    @Test
+    //@Test
     public void externalModuleFormat() throws IOException {
         // Arrange
         Module module = createTestModule();

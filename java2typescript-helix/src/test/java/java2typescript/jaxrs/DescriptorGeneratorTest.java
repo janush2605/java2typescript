@@ -18,6 +18,7 @@ package java2typescript.jaxrs;
 import com.cg.helix.mib.annotation.ComponentInterface;
 import com.cg.helix.mib.annotation.Input;
 import com.cg.helix.schemadictionary.annotation.ComplexType;
+import com.example.rs.PeopleRestService;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,6 +31,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
@@ -117,7 +119,7 @@ public class DescriptorGeneratorTest {
         }
     }
 
-    //@ComplexType(name = PlannedDoseDTO.NAME)
+    @ComplexType(name = PlannedDoseDTO.NAME)
     class PlannedDoseDTO {
         public static final String NAME = "/cgm/g3his/mor/PlannedDoseDTO";
 
@@ -152,17 +154,11 @@ public class DescriptorGeneratorTest {
         out = new OutputStreamWriter(System.out);
     }
 
-    //@Test
-    public void testJSGenerate() throws JsonGenerationException, JsonMappingException, IOException {
-        /*ServiceDescriptorGenerator descGen = new ServiceDescriptorGenerator(
-                Collections.singletonList(PeopleRestService.class));
-        descGen.generateJavascript("moduleName", out);*/
-    }
 
     //@Test
     public void testHelixComponentInterfaceTypescriptGenerate() throws JsonGenerationException, JsonMappingException, IOException {
 
-       /* ServiceDescriptorGenerator descGen = new ServiceDescriptorGenerator(
+        ServiceDescriptorGenerator descGen = new ServiceDescriptorGenerator(
                 singletonList(ExampleService.class));
 
         ObjectMapper mapper = new ObjectMapper();
@@ -171,7 +167,7 @@ public class DescriptorGeneratorTest {
         mapper.registerModule(module);
 
         Module tsModule = descGen.generateTypeScript("modName");
-        tsModule.write(out);*/
+        tsModule.write(out);
     }
 
     @Test
@@ -192,7 +188,7 @@ public class DescriptorGeneratorTest {
     //@Test
     public void testTypescriptGenerate() throws JsonGenerationException, JsonMappingException, IOException {
 
-        /*ServiceDescriptorGenerator descGen = new ServiceDescriptorGenerator(
+        ServiceDescriptorGenerator descGen = new ServiceDescriptorGenerator(
                 Collections.singletonList(PeopleRestService.class));
 
         ObjectMapper mapper = new ObjectMapper();
@@ -201,6 +197,6 @@ public class DescriptorGeneratorTest {
         mapper.registerModule(module);
 
         Module tsModule = descGen.generateTypeScript("modName");
-        tsModule.write(out);*/
+        tsModule.write(out);
     }
 }

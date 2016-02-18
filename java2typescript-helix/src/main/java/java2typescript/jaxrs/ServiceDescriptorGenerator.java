@@ -17,7 +17,6 @@ package java2typescript.jaxrs;
 
 import com.cg.helix.mib.annotation.ComponentInterface;
 import com.cg.helix.schemadictionary.annotation.ComplexType;
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -43,11 +42,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.beans.Introspector;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -153,31 +149,6 @@ public class ServiceDescriptorGenerator {
         addModuleVars(module, classes);
 
         return module;
-    }
-
-    /**
-     * Generate JS implementation
-     *
-     * @throws IOException
-     * @throws JsonMappingException
-     * @throws JsonGenerationException
-     */
-    public void generateJavascript(String moduleName, Writer writer) throws JsonGenerationException,
-            JsonMappingException, IOException {
-
-        // Generate JSON as String
-        StringWriter jsonOut = new StringWriter();
-        Collection<RestService> restServices = this.generateRestServices(classes);
-        RestService.toJSON(restServices, jsonOut);
-
-        // Read template content
-        String jsTemplate = com.google.common.io.Resources.toString(//
-                ServiceDescriptorGenerator.class.getResource(JS_TEMPLATE_RES), //
-                Charset.defaultCharset());
-
-        // Replace template values
-        String out = jsTemplate.replace(MODULE_NAME_PLACEHOLDER, moduleName);
-        out = out.replace(JSON_PLACEHOLDER, jsonOut.toString());
     }
 
     private Method generateMethod(java.lang.reflect.Method method) {

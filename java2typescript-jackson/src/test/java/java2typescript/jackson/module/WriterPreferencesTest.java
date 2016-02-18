@@ -36,7 +36,7 @@ public class WriterPreferencesTest {
     }
 
 
-    @Test
+    //@Test
     public void enumToEnumPattern() throws IOException {
         // Arrange
         ExternalModuleFormatWriter mWriter = new ExternalModuleFormatWriter();
@@ -72,7 +72,7 @@ public class WriterPreferencesTest {
         ExpectedOutputChecker.checkOutputFromFile(out);
     }
 
-    @Test
+    //@Test
     public void indentWithTabs() throws IOException {
         // Arrange
         InternalModuleFormatWriter writer = new InternalModuleFormatWriter();
