@@ -22,6 +22,8 @@ import java2typescript.jackson.module.visitors.TSJsonFormatVisitorWrapper;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Main class that generates a TypeScript grammar tree (a Module), out of a
@@ -42,17 +44,7 @@ public class DefinitionGenerator {
      */
     public Module generateTypeScript(String moduleName, Collection<? extends Class<?>> classes, Configuration conf)
             throws JsonMappingException {
-        if (conf == null) {
-            conf = new Configuration();
-        }
-
-        Module module = new Module(moduleName);
-        TSJsonFormatVisitorWrapper visitor = new TSJsonFormatVisitorWrapper(module, conf);
-
-        for (Class<?> clazz : classes) {
-            mapper.acceptJsonFormatVisitor(clazz, visitor);
-        }
-        return module;
+        return generateTypeScript(moduleName, classes, conf, null, Collections.<Module>emptyList());
     }
 
     /**
@@ -60,23 +52,38 @@ public class DefinitionGenerator {
      * @param classes    Class for which generating definition
      * @throws JsonMappingException
      */
-    public Module generateTypeScript(String moduleName, Collection<? extends Class<?>> classes, Configuration conf, Class classAnnotation)
+    public Module generateTypeScript(String moduleName, Collection<? extends Class<?>> classes, Configuration configuration, Class classAnnotation)
             throws JsonMappingException {
-        if (conf == null) {
-            conf = new Configuration();
+        return generateTypeScript(moduleName, classes, configuration, classAnnotation, Collections.emptyList());
+    }
+
+    public Module generateTypeScript(String moduleName, Collection<? extends Class<?>> classes, Configuration configuration,
+                                     Class classAnnotation, List<Module> refenceModules) throws JsonMappingException {
+        if (configuration == null) {
+            configuration = new Configuration();
         }
 
         Module module = new Module(moduleName);
-        TSJsonFormatVisitorWrapper visitor = new TSJsonFormatVisitorWrapper(module, conf);
+        module.setReferenceModules(refenceModules);
+        TSJsonFormatVisitorWrapper visitor = new TSJsonFormatVisitorWrapper(module, configuration);
 
         for (Class<?> clazz : classes) {
-            Annotation annotation = clazz.getAnnotation(classAnnotation);
-            if (annotation != null) {
-                System.out.println(clazz.getPackage().getName() + "." + clazz.getName());
-                mapper.acceptJsonFormatVisitor(clazz, visitor);
+            if (classAnnotation != null) {
+                Annotation annotation = clazz.getAnnotation(classAnnotation);
+                if (annotation != null) {
+                    mapClass(visitor, clazz);
+                }
+            } else {
+                mapClass(visitor, clazz);
             }
+
         }
         return module;
+
     }
 
+    private void mapClass(TSJsonFormatVisitorWrapper visitor, Class<?> clazz) throws JsonMappingException {
+        System.out.println(clazz.getPackage().getName() + "." + clazz.getName());
+        mapper.acceptJsonFormatVisitor(clazz, visitor);
+    }
 }

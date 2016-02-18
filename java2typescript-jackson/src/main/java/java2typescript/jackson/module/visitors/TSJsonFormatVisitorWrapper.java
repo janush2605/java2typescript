@@ -68,7 +68,7 @@ public class TSJsonFormatVisitorWrapper extends ABaseTSJsonFormatVisitor impleme
 
         String name = getName(javaType);
 
-        AbstractNamedType namedType = getModule().getNamedTypes().get(name);
+        AbstractNamedType namedType = getModule().resolveTypeName(name);
 
         if (namedType == null) {
             TSJsonObjectFormatVisitor visitor = new TSJsonObjectFormatVisitor(this, name, javaType

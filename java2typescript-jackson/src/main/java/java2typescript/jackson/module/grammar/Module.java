@@ -15,6 +15,7 @@
  ******************************************************************************/
 package java2typescript.jackson.module.grammar;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import java2typescript.jackson.module.grammar.base.AbstractNamedType;
 import java2typescript.jackson.module.grammar.base.AbstractType;
 import java2typescript.jackson.module.writer.InternalModuleFormatWriter;
@@ -36,8 +37,30 @@ public class Module {
 
     private List<String> referencePaths = new ArrayList<>();
 
+    private List<Module> referenceModules = new ArrayList<>();
+    private AbstractNamedType abstractNamedType;
+
     public Module() {
     }
+
+
+    //========================================================
+    // Public methods
+    //========================================================
+
+    public AbstractNamedType resolveTypeName(String name){
+        for (Module module : referenceModules){
+            abstractNamedType = module.getNamedTypes().get(name);
+            if (abstractNamedType != null){
+                return module.getNamedTypes().get(name);
+            }
+        }
+        return getNamedTypes().get(name);
+    }
+
+    //========================================================
+    // Accessors
+    //========================================================
 
     public Module(String name) {
         this.name = name;
@@ -69,5 +92,13 @@ public class Module {
 
     public void write(Writer writer) throws IOException {
         new InternalModuleFormatWriter().write(this, writer);
+    }
+
+    public List<Module> getReferenceModules() {
+        return referenceModules;
+    }
+
+    public void setReferenceModules(List<Module> referenceModules) {
+        this.referenceModules = referenceModules;
     }
 }

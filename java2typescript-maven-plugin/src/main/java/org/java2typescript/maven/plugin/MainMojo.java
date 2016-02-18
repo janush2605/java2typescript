@@ -28,6 +28,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -124,6 +125,8 @@ public class MainMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
 
+        List<Module> refenceModules = new ArrayList<>();
+
         try {
             ObjectMapper mapper = new ObjectMapper();
             SimpleModule module = new SimpleModule("custom-mapping");
@@ -136,14 +139,16 @@ public class MainMojo extends AbstractMojo {
 
             // To Typescript
             for (DeclarationConfig declatationConfig : declatationConfigs) {
-                generateTypescriptDeclaration(mapper, configuration, classPath, declatationConfig);
+                Module tsModule = generateTypescriptDeclaration(mapper, configuration, classPath, declatationConfig, refenceModules);
+                refenceModules.add(tsModule);
             }
         } catch (Exception e) {
             throw new MojoExecutionException(e.getMessage(), e);
         }
     }
 
-    private void generateTypescriptDeclaration(ObjectMapper mapper, Configuration configuration, ClassPath classPath, DeclarationConfig declatationConfig) throws IOException {
+    private Module generateTypescriptDeclaration(ObjectMapper mapper, Configuration configuration, ClassPath classPath,
+                                                 DeclarationConfig declatationConfig, List<Module> refenceModules) throws IOException {
         Writer writer = createFileAndGetWriter(tsOutFolder, declatationConfig.getModuleName() + ".d.ts");
         Set<ClassPath.ClassInfo> classInfos = classPath.getTopLevelClassesRecursive(declatationConfig.getComplexTypePackage());
         List<Class<?>> classes = from(classInfos)
@@ -151,12 +156,13 @@ public class MainMojo extends AbstractMojo {
                 .toList();
 
         DefinitionGenerator definitionGenerator = new DefinitionGenerator(mapper);
-        Module dtoTSModule = definitionGenerator.generateTypeScript(declatationConfig.getModuleName(), classes, configuration, ComplexType.class);
+        Module dtoTSModule = definitionGenerator.generateTypeScript(declatationConfig.getModuleName(), classes, configuration, ComplexType.class, refenceModules);
         if (declatationConfig.getReferenceDeclaration() != null) {
             dtoTSModule.setReferencePaths(asList(declatationConfig.getReferenceDeclaration()));
         }
         dtoTSModule.write(writer);
         writer.close();
+        return dtoTSModule;
     }
 
     private Writer createFileAndGetWriter(File folder, String fileName) throws IOException {
