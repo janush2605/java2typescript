@@ -31,9 +31,11 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
 public class DescriptorGeneratorTest {
@@ -51,9 +53,11 @@ public class DescriptorGeneratorTest {
         private String id;
         private String name;
         private List<DoseDTO> doses;
+        private DoseDTO defaultDose;
         private PlannedDoseDTO plannedDose;
+        private LocalDateTime startDate;
 
-       /* public String getId() {
+        public String getId() {
             return id;
         }
 
@@ -76,13 +80,29 @@ public class DescriptorGeneratorTest {
         public void setDoses(List<DoseDTO> doses) {
             this.doses = doses;
         }
-*/
+
         public PlannedDoseDTO getPlannedDose() {
             return plannedDose;
         }
 
         public void setPlannedDose(PlannedDoseDTO plannedDose) {
             this.plannedDose = plannedDose;
+        }
+
+        public DoseDTO getDefaultDose() {
+            return defaultDose;
+        }
+
+        public void setDefaultDose(DoseDTO defaultDose) {
+            this.defaultDose = defaultDose;
+        }
+
+        public LocalDateTime getStartDate() {
+            return startDate;
+        }
+
+        public void setStartDate(LocalDateTime startDate) {
+            this.startDate = startDate;
         }
     }
 
@@ -102,7 +122,7 @@ public class DescriptorGeneratorTest {
             this.id = id;
         }
 
-      /*  public Integer getDose() {
+        public Integer getDose() {
             return dose;
         }
 
@@ -116,7 +136,7 @@ public class DescriptorGeneratorTest {
 
         public void setUnit(String unit) {
             this.unit = unit;
-        }*/
+        }
     }
 
     @ComplexType(name = PlannedDoseDTO.NAME)
@@ -183,6 +203,23 @@ public class DescriptorGeneratorTest {
         Module tsModule = definitionGenerator.generateTypeScript("modName", singletonList(AdministrationDTO.class), null, ComplexType.class);
 
         tsModule.write(out);
+    }
+
+    @Test
+    public void testHelixComplexTypeTypescriptGenerateWithMultipleModules() throws JsonGenerationException, JsonMappingException, IOException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule("custom-mapping");
+
+        mapper.registerModule(module);
+
+        DefinitionGenerator definitionGenerator = new DefinitionGenerator(mapper);
+
+        Module tsModule = definitionGenerator.generateTypeScript("tsm", singletonList(DoseDTO.class), null, ComplexType.class);
+        tsModule.write(out);
+
+        Module medModule = definitionGenerator.generateTypeScript("med", singletonList(AdministrationDTO.class), null, ComplexType.class, asList(tsModule));
+        medModule.write(out);
     }
 
     //@Test

@@ -15,8 +15,16 @@
  ******************************************************************************/
 package java2typescript.jackson.module.grammar.base;
 
+import java2typescript.jackson.module.grammar.LocalDateTimeType;
+import java2typescript.jackson.module.visitors.ABaseTSJsonFormatVisitor;
+import java2typescript.jackson.module.visitors.TSJsonLocalDateTimeFormatVisitor;
+
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 abstract public class AbstractPrimitiveType extends AbstractType {
 
@@ -25,7 +33,6 @@ abstract public class AbstractPrimitiveType extends AbstractType {
     public AbstractPrimitiveType(String token) {
         this.token = token;
     }
-
 
     @Override
     public void write(Writer writer, String moduleGeneratorName) throws IOException {

@@ -24,6 +24,8 @@ import java2typescript.jackson.module.grammar.Module;
 import java2typescript.jackson.module.grammar.base.AbstractNamedType;
 import java2typescript.jackson.module.grammar.base.AbstractType;
 
+import static java2typescript.jackson.module.grammar.base.CustomPrimitiveTypeProvider.CUSTOM_PRIMITIVE_TYPES;
+
 public class TSJsonFormatVisitorWrapper extends ABaseTSJsonFormatVisitor implements
         JsonFormatVisitorWrapper {
 
@@ -70,7 +72,10 @@ public class TSJsonFormatVisitorWrapper extends ABaseTSJsonFormatVisitor impleme
 
         AbstractNamedType namedType = getModule().resolveTypeName(name);
 
-        if (namedType == null) {
+        if (CUSTOM_PRIMITIVE_TYPES.containsKey(name)) {
+            type = CUSTOM_PRIMITIVE_TYPES.get(name);
+            return null;
+        } else if (namedType == null) {
             TSJsonObjectFormatVisitor visitor = new TSJsonObjectFormatVisitor(this, name, javaType
                     .getRawClass(), conf);
             type = visitor.getType();
