@@ -20,7 +20,6 @@
         <module>java2typescript-helix</module>
         <module>java2typescript-maven-plugin</module>
         <module>sample-web-app-server</module>
-        <module>sample-web-app-client</module>
     </modules>
 
     <dependencies>
