@@ -19,7 +19,7 @@ import java2typescript.jackson.module.grammar.Module;
 import java2typescript.jackson.module.util.ExpectedOutputChecker;
 import java2typescript.jackson.module.util.TestUtil;
 import java2typescript.jackson.module.writer.ExternalModuleFormatWriter;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.beans.Transient;
 import java.io.IOException;

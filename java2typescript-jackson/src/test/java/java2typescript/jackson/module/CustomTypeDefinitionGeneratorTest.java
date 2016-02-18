@@ -20,7 +20,7 @@ import java2typescript.jackson.module.grammar.base.AbstractPrimitiveType;
 import java2typescript.jackson.module.util.ExpectedOutputChecker;
 import java2typescript.jackson.module.util.TestUtil;
 import java2typescript.jackson.module.writer.ExternalModuleFormatWriter;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;

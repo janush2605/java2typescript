@@ -25,8 +25,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java2typescript.jackson.module.DefinitionGenerator;
 import java2typescript.jackson.module.grammar.Module;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -149,7 +149,7 @@ public class DescriptorGeneratorTest {
     }
 
 
-    @Before
+    @BeforeClass
     public void setUp() {
         out = new OutputStreamWriter(System.out);
     }

@@ -50,6 +50,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>java2typescript</groupId>
             <artifactId>sample-web-app-server</artifactId>
             <version>${project.version}</version>

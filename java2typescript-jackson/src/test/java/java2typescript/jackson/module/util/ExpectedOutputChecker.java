@@ -3,13 +3,15 @@ package java2typescript.jackson.module.util;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
-import org.junit.Assert;
+import org.testng.Assert;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
+
+import static org.testng.Assert.assertEquals;
 
 public class ExpectedOutputChecker {
 
@@ -20,7 +22,7 @@ public class ExpectedOutputChecker {
     private static void compareFileContent(Writer out) {
         // Can't rely on specific order of classes/fields/methods, so file content equality can't be used.
         // Using naive approach to check that actual output contains exactly the same lines as expected output
-        Assert.assertEquals(getLinesAlphabetically(getExpectedOutput()), getLinesAlphabetically(out.toString()));
+        assertEquals(getLinesAlphabetically(getExpectedOutput()), getLinesAlphabetically(out.toString()));
     }
 
     private static List<String> getLinesAlphabetically(String s) {

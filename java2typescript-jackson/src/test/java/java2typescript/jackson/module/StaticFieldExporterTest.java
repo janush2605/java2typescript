@@ -17,15 +17,15 @@ package java2typescript.jackson.module;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java2typescript.jackson.module.grammar.Module;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 public class StaticFieldExporterTest {
     @JsonTypeName("ChangedEnumName")
