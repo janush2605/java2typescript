@@ -52,7 +52,7 @@ public class Module {
         for (Module module : referenceModules){
             abstractNamedType = module.getNamedTypes().get(name);
             if (abstractNamedType != null){
-                return module.getNamedTypes().get(name);
+                return abstractNamedType;
             }
         }
         return getNamedTypes().get(name);

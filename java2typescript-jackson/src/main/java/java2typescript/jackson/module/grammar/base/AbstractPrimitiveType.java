@@ -26,8 +26,9 @@ abstract public class AbstractPrimitiveType extends AbstractType {
         this.token = token;
     }
 
+
     @Override
-    public void write(Writer writer) throws IOException {
+    public void write(Writer writer, String moduleGeneratorName) throws IOException {
         writer.write(token);
     }
 }

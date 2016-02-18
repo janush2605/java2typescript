@@ -32,31 +32,31 @@ public class FunctionType extends AbstractType {
      * By default, printed as lambda function type (with =>)
      */
     @Override
-    public void write(Writer writer) throws IOException {
-        write(writer, true);
+    public void write(Writer writer, String moduleGeneratorName) throws IOException {
+        write(writer, moduleGeneratorName, true);
     }
 
     /**
      * Write as non lambda : func(a:string) : string
      */
-    public void writeNonLambda(Writer writer) throws IOException {
-        write(writer, false);
+    public void writeNonLambda(Writer writer, String moduleGeneratorName) throws IOException {
+        write(writer, moduleGeneratorName, false);
     }
 
-    private void write(Writer writer, boolean lambdaSyntax) throws IOException {
+    private void write(Writer writer, String moduleGeneratorName, boolean lambdaSyntax) throws IOException {
         writer.write("(");
         int i = 1;
         for (Entry<String, AbstractType> entry : parameters.entrySet()) {
             writer.write(entry.getKey());
             writer.write(": ");
-            entry.getValue().write(writer);
+            entry.getValue().write(writer, moduleGeneratorName);
             if (i < parameters.size()) {
                 writer.write(", ");
             }
             i++;
         }
         writer.write(")" + (lambdaSyntax ? "=> " : ": "));
-        resultType.write(writer);
+        resultType.write(writer, moduleGeneratorName);
     }
 
     public LinkedHashMap<String, AbstractType> getParameters() {

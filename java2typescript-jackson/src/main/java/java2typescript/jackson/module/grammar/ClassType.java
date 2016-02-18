@@ -33,7 +33,7 @@ public class ClassType extends AbstractNamedType {
 
     private Map<String, FunctionType> methods = new LinkedHashMap<String, FunctionType>();
 
-    static private ClassType objectType = new ClassType("Object");
+    static private ClassType objectType = new ClassType("Object", EMPTY_MODULE);
 
     /**
      * Root Object class
@@ -42,8 +42,8 @@ public class ClassType extends AbstractNamedType {
         return objectType;
     }
 
-    public ClassType(String className) {
-        super(className);
+    public ClassType(String className, String moduleName) {
+        super(className, moduleName);
     }
 
     @Override
@@ -52,12 +52,12 @@ public class ClassType extends AbstractNamedType {
         preferences.increaseIndentation();
         for (Entry<String, AbstractType> entry : fields.entrySet()) {
             writer.write(format("%s%s: ", preferences.getIndentation(), entry.getKey()));
-            entry.getValue().write(writer);
+            entry.getValue().write(writer, moduleName);
             writer.write(";\n");
         }
         for (String methodName : methods.keySet()) {
             writer.write(preferences.getIndentation() + methodName);
-            this.methods.get(methodName).writeNonLambda(writer);
+            this.methods.get(methodName).writeNonLambda(writer, moduleName);
             writer.write(";\n");
         }
         preferences.decreaseIndention();

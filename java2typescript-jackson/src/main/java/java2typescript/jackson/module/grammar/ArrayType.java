@@ -32,13 +32,14 @@ public class ArrayType extends AbstractType {
     }
 
     @Override
-    public void write(Writer writer) throws IOException {
-        itemType.write(writer);
+    public void write(Writer writer, String moduleGeneratorName) throws IOException {
+        itemType.write(writer, moduleGeneratorName);
         writer.write("[]");
     }
 
     public void setItemType(AbstractType itemType) {
         this.itemType = itemType;
     }
+
 
 }

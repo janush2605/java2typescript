@@ -31,8 +31,8 @@ public class StaticClassType extends AbstractNamedType {
 
     private Map<String, Value> fields = new HashMap<String, Value>();
 
-    public StaticClassType(String className) {
-        super(className);
+    public StaticClassType(String className, String moduleName) {
+        super(className, moduleName);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class StaticClassType extends AbstractNamedType {
         prefs.increaseIndentation();
         for (Entry<String, Value> entry : fields.entrySet()) {
             writer.write(format("%sstatic %s: ", prefs.getIndentation(), entry.getKey()));
-            entry.getValue().getType().write(writer);
+            entry.getValue().getType().write(writer, moduleName);
             writer.write(" = ");
             writer.write(entry.getValue().getValue().toString());
             writer.write(";\n");
@@ -53,4 +53,5 @@ public class StaticClassType extends AbstractNamedType {
     public Map<String, Value> getStaticFields() {
         return fields;
     }
+
 }

@@ -53,7 +53,7 @@ public class DescriptorGeneratorTest {
         private List<DoseDTO> doses;
         private PlannedDoseDTO plannedDose;
 
-        public String getId() {
+       /* public String getId() {
             return id;
         }
 
@@ -76,7 +76,7 @@ public class DescriptorGeneratorTest {
         public void setDoses(List<DoseDTO> doses) {
             this.doses = doses;
         }
-
+*/
         public PlannedDoseDTO getPlannedDose() {
             return plannedDose;
         }
@@ -102,7 +102,7 @@ public class DescriptorGeneratorTest {
             this.id = id;
         }
 
-        public Integer getDose() {
+      /*  public Integer getDose() {
             return dose;
         }
 
@@ -116,7 +116,7 @@ public class DescriptorGeneratorTest {
 
         public void setUnit(String unit) {
             this.unit = unit;
-        }
+        }*/
     }
 
     @ComplexType(name = PlannedDoseDTO.NAME)

@@ -19,5 +19,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 public abstract class AbstractType {
-    public abstract void write(Writer writer) throws IOException;
+
+    public abstract void write(Writer writer, String moduleGeneratorName) throws IOException;
+
 }

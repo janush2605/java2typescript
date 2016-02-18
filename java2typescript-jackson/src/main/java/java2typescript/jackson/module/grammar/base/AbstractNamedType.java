@@ -25,18 +25,35 @@ import java.io.Writer;
  */
 abstract public class AbstractNamedType extends AbstractType {
 
+    protected static final String EMPTY_MODULE = "";
+
     protected final String name;
 
-    public AbstractNamedType(String className) {
+    protected final String moduleName;
+
+    public AbstractNamedType(String className, String moduleName) {
         this.name = className;
+        this.moduleName = moduleName;
     }
 
     @Override
-    public void write(Writer writer) throws IOException {
-        writer.write(name);
+    public void write(Writer writer, String moduleGeneratorName) throws IOException {
+        if (!moduleName.equals(moduleGeneratorName)){
+            writer.write(moduleName + "." + name);
+        } else {
+            writer.write(name);
+        }
+
     }
 
     public String getName() {
+        return name;
+    }
+
+    public String getFullName() {
+        if (moduleName != null && EMPTY_MODULE.equals(moduleName)) {
+            return moduleName.concat(".").concat(name);
+        }
         return name;
     }
 

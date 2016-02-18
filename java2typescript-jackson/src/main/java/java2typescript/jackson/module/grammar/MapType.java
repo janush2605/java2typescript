@@ -29,13 +29,14 @@ public class MapType extends AbstractType {
     }
 
     @Override
-    public void write(Writer writer) throws IOException {
+    public void write(Writer writer, String moduleGeneratorName) throws IOException {
         writer.write("{ [key: ");
-        keyType.write(writer);
+        keyType.write(writer, moduleGeneratorName);
         writer.write(" ]: ");
-        valueType.write(writer);
+        valueType.write(writer, moduleGeneratorName);
         writer.write(";}");
     }
+
 
     public AbstractType getValueType() {
         return valueType;
@@ -52,5 +53,6 @@ public class MapType extends AbstractType {
     public void setKeyType(AbstractType keyType) {
         this.keyType = keyType;
     }
+
 
 }

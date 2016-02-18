@@ -36,7 +36,7 @@ public class ExternalModuleFormatWriter implements ModuleWriter {
 
         for (Entry<String, AbstractType> entry : module.getVars().entrySet()) {
             writer.write(preferences.getIndentation() + "export var " + entry.getKey() + ": ");
-            entry.getValue().write(writer);
+            entry.getValue().write(writer, module.getName());
             writer.write(";\n");
         }
     }

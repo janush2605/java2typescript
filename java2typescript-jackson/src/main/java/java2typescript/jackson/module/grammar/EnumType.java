@@ -30,8 +30,8 @@ public class EnumType extends AbstractNamedType {
 
     private List<String> values = new ArrayList<String>();
 
-    public EnumType(String className) {
-        super(className);
+    public EnumType(String className, String moduleName) {
+        super(className, moduleName);
     }
 
     @Override
