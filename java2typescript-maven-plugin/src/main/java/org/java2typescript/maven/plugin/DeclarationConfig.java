@@ -10,23 +10,62 @@
  */
 package org.java2typescript.maven.plugin;
 
+import java.util.List;
+
 /**
+ *
  * @author £ukasz Janczara, PL
+ *
+ * Full package names of the Complex Type class and name of their modules
+ *
+ * @optional
+ * @parameter alias="declatationConfig"
+ * expression="${j2ts.declatationConfig}"
  */
 public class DeclarationConfig {
-    private String complexTypePackage;
 
+    /**
+     * List of full package name of the Complex Type class
+     *
+     * @optional
+     * @parameter alias="dtoPackages"
+     * expression="${j2ts.dtoClasses}"
+     */
+    private List<String> complexTypePackages;
+
+
+    /**
+     * Name of output module (ts)
+     *
+     * @optional
+     * @parameter alias="moduleName"
+     * expression="${j2ts.moduleName}"
+     */
     private String moduleName;
 
-    private String referenceDeclaration;
+    /**
+     * Name of reference to another  module (ts)
+     *
+     * @optional
+     * @parameter alias="referenceDeclarations"
+     * expression="${j2ts.referenceDeclarations}"
+     */
+    private List<String> referenceDeclarations;
 
+    /**
+     * Flag indicates generating external classes (ts)
+     *
+     * @optional
+     * @parameter alias="generateExternalClasses"
+     * expression="${j2ts.generateExternalClasses}"
+     */
     private boolean generateExternalClasses;
 
     public DeclarationConfig() {
     }
 
-    public DeclarationConfig(String complexTypePackage, String moduleName) {
-        this.complexTypePackage = complexTypePackage;
+    public DeclarationConfig(List<String> complexTypePackages, String moduleName) {
+        this.complexTypePackages = complexTypePackages;
         this.moduleName = moduleName;
     }
 
@@ -38,27 +77,27 @@ public class DeclarationConfig {
         this.moduleName = moduleName;
     }
 
-    public String getComplexTypePackage() {
-        return complexTypePackage;
-    }
-
-    public void setComplexTypePackage(String complexTypePackage) {
-        this.complexTypePackage = complexTypePackage;
-    }
-
-    public String getReferenceDeclaration() {
-        return referenceDeclaration;
-    }
-
-    public void setReferenceDeclaration(String referenceDeclaration) {
-        this.referenceDeclaration = referenceDeclaration;
-    }
-
     public boolean isGenerateExternalClasses() {
         return generateExternalClasses;
     }
 
     public void setGenerateExternalClasses(boolean generateExternalClasses) {
         this.generateExternalClasses = generateExternalClasses;
+    }
+
+    public List<String> getReferenceDeclarations() {
+        return referenceDeclarations;
+    }
+
+    public void setReferenceDeclarations(List<String> referenceDeclarations) {
+        this.referenceDeclarations = referenceDeclarations;
+    }
+
+    public List<String> getComplexTypePackages() {
+        return complexTypePackages;
+    }
+
+    public void setComplexTypePackages(List<String> complexTypePackages) {
+        this.complexTypePackages = complexTypePackages;
     }
 }

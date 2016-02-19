@@ -1,6 +1,6 @@
 export interface RecursiveTestClass {
     recursive: RecursiveTestClass;
-    recursiveArray: RecursiveTestClass[];
+    recursiveArray: Array<RecursiveTestClass>;
     returnThis(): RecursiveTestClass;
 }
 

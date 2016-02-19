@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Set;
 
 import static com.google.common.collect.FluentIterable.from;
-import static java.util.Arrays.asList;
 
 /**
  * Generate typescript file out of RESt service definition
@@ -44,15 +43,6 @@ import static java.util.Arrays.asList;
  * @requiresDependencyResolution compile+runtime
  */
 public class MainMojo extends AbstractMojo {
-
-    /**
-     * Full class name of the REST service
-     *
-     * @optional
-     * @parameter alias="serviceClass"
-     * expression="${j2ts.serviceClass}"
-     */
-    private String restServiceClassName;
 
     /**
      * Full class name of the Complex Type class
@@ -72,33 +62,6 @@ public class MainMojo extends AbstractMojo {
      */
     private List<DeclarationConfig> declatationConfigs;
 
-    /**
-     * Full package names of the Complex Type class and names of their modules
-     *
-     * @optional
-     * @parameter alias="declatationConfig"
-     * expression="${j2ts.declatationConfig}"
-     */
-    private DeclarationConfig declatationConfig;
-
-    /**
-     * Full package name of the Complex Type class
-     *
-     * @optional
-     * @parameter alias="dtoPackage"
-     * expression="${j2ts.dtoClass}"
-     */
-    private String complexTypePackage;
-
-
-    /**
-     * Name of output module (ts,js)
-     *
-     * @optional
-     * @parameter alias="moduleName"
-     * expression="${j2ts.moduleName}"
-     */
-    private String moduleName;
 
     /**
      * Path to output typescript folder
@@ -110,17 +73,6 @@ public class MainMojo extends AbstractMojo {
      * default-value = "${project.build.directory}"
      */
     private File tsOutFolder;
-
-    /**
-     * Path to output Js file
-     * The name will be <moduleName>.js
-     *
-     * @required
-     * @parameter alias="jsOutFolder"
-     * expression="${j2ts.jsOutFolder}"
-     * default-value = "${project.build.directory}"
-     */
-    private File jsOutFolder;
 
     @Override
     public void execute() throws MojoExecutionException {
@@ -150,19 +102,29 @@ public class MainMojo extends AbstractMojo {
     private Module generateTypescriptDeclaration(ObjectMapper mapper, Configuration configuration, ClassPath classPath,
                                                  DeclarationConfig declatationConfig, List<Module> refenceModules) throws IOException {
         Writer writer = createFileAndGetWriter(tsOutFolder, declatationConfig.getModuleName() + ".d.ts");
-        Set<ClassPath.ClassInfo> classInfos = classPath.getTopLevelClassesRecursive(declatationConfig.getComplexTypePackage());
-        List<Class<?>> classes = from(classInfos)
-                .transform((Function<ClassPath.ClassInfo, Class<?>>) (classInfo) -> classInfo.load())
-                .toList();
+        List<Class<?>> classes =
+                from(declatationConfig.getComplexTypePackages())
+                        .transformAndConcat(ClassesFromPackages(classPath))
+                        .transform((Function<ClassPath.ClassInfo, Class<?>>) (classInfo) -> classInfo.load())
+                        .toList();
 
         DefinitionGenerator definitionGenerator = new DefinitionGenerator(mapper);
         Module dtoTSModule = definitionGenerator.generateTypeScript(declatationConfig.getModuleName(), classes, configuration, ComplexType.class, refenceModules);
-        if (declatationConfig.getReferenceDeclaration() != null) {
-            dtoTSModule.setReferencePaths(asList(declatationConfig.getReferenceDeclaration()));
+        if (declatationConfig.getReferenceDeclarations() != null) {
+            dtoTSModule.setReferencePaths(declatationConfig.getReferenceDeclarations());
         }
         dtoTSModule.write(writer);
         writer.close();
         return dtoTSModule;
+    }
+
+    private Function<String, Set<ClassPath.ClassInfo>> ClassesFromPackages(final ClassPath classPath) {
+        return new Function<String, Set<ClassPath.ClassInfo>>() {
+            @Override
+            public Set<ClassPath.ClassInfo> apply(String complexTypePackage) {
+                return classPath.getTopLevelClassesRecursive(complexTypePackage);
+            }
+        };
     }
 
     private Writer createFileAndGetWriter(File folder, String fileName) throws IOException {

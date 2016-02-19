@@ -16,12 +16,12 @@ export module modName {
         _Boolean: boolean;
         _int: number;
         _float: number;
-        stringArray: string[];
+        stringArray: Array<string>;
         map: { [key: string ]: boolean;};
         recursive: TestClass;
-        recursiveArray: TestClass[];
-        stringArrayList: string[];
-        booleanCollection: boolean[];
+        recursiveArray: Array<TestClass>;
+        stringArrayList: Array<string>;
+        booleanCollection: Array<boolean>;
         _enum: ChangedEnumName;
         aMethod(param0:boolean, param1:string): string;
     }

@@ -78,7 +78,7 @@ public class StaticFieldExporterTest {
         assertTrue(result.contains("export enum ChangedEnumName"));
         assertTrue(result.contains("static MY_CONSTANT_STRING: string = 'Test';"));
         assertTrue(result
-                .contains("static MY_CONSTANT_ENUM_ARRAY_2: ChangedEnumName[] = [ ChangedEnumName.VAL1, ChangedEnumName.VAL2 ];"));
+                .contains("static MY_CONSTANT_ENUM_ARRAY_2: Array<ChangedEnumName> = [ ChangedEnumName.VAL1, ChangedEnumName.VAL2 ];"));
         assertFalse(result.contains("doNotExportAsStatic"));
     }
 }

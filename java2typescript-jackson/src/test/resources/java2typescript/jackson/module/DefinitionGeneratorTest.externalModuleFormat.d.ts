@@ -14,12 +14,12 @@ export interface TestClass {
     _Boolean: boolean;
     _int: number;
     _float: number;
-    stringArray: string[];
+    stringArray: Array<string>;
     map: { [key: string ]: boolean;};
     recursive: TestClass;
-    recursiveArray: TestClass[];
+    recursiveArray: Array<TestClass>;
     stringArrayList: string[];
-    booleanCollection: boolean[];
+    booleanCollection: Array<boolean>;
     _enum: ChangedEnumName;
     aMethod(param0:boolean, param1:string): string;
 }
