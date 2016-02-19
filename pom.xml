@@ -19,7 +19,6 @@
         <module>java2typescript-jackson</module>
         <module>java2typescript-helix</module>
         <module>java2typescript-maven-plugin</module>
-        <module>sample-web-app-server</module>
     </modules>
 
     <dependencyManagement>
