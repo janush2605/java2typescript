@@ -10,6 +10,7 @@
  */
 package java2typescript.jackson.module.grammar.base;
 
+import java2typescript.jackson.module.grammar.AnyType;
 import java2typescript.jackson.module.grammar.LocalDateTimeType;
 
 import java.util.HashMap;
@@ -26,5 +27,6 @@ public class CustomPrimitiveTypeProvider {
         CUSTOM_PRIMITIVE_TYPES = new HashMap<>();
         CUSTOM_PRIMITIVE_TYPES.put("LocalDateTime", LocalDateTimeType.getInstance());
         CUSTOM_PRIMITIVE_TYPES.put("LocalDate", LocalDateTimeType.getInstance());
+        CUSTOM_PRIMITIVE_TYPES.put("DataObject", AnyType.getInstance());
     }
 }
