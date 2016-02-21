@@ -13,7 +13,7 @@ package java2typescript.jackson.module.grammar;
 import java2typescript.jackson.module.grammar.base.AbstractPrimitiveType;
 
 /**
- * @author £ukasz Janczara, PL
+ * @author Lukasz Janczara, PL
  */
 public class LocalDateTimeType extends AbstractPrimitiveType {
     static private LocalDateTimeType instance = new LocalDateTimeType();

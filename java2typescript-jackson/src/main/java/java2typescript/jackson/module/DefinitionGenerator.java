@@ -54,7 +54,7 @@ public class DefinitionGenerator {
      */
     public Module generateTypeScript(String moduleName, Collection<? extends Class<?>> classes, Configuration configuration, Class classAnnotation)
             throws JsonMappingException {
-        return generateTypeScript(moduleName, classes, configuration, classAnnotation, Collections.emptyList());
+        return generateTypeScript(moduleName, classes, configuration, classAnnotation, Collections.<Module>emptyList());
     }
 
     public Module generateTypeScript(String moduleName, Collection<? extends Class<?>> classes, Configuration configuration,

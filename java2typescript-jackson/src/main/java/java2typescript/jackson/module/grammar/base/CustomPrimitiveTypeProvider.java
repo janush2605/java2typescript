@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author £ukasz Janczara, PL
+ * @author Lukasz Janczara, PL
  */
 public class CustomPrimitiveTypeProvider {
 

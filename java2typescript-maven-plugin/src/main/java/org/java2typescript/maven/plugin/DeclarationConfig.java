@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  *
- * @author £ukasz Janczara, PL
+ * @author Lukasz Janczara, PL
  *
  * Full package names of the Complex Type class and name of their modules
  *

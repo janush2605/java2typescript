@@ -15,7 +15,7 @@ import java2typescript.jackson.module.Configuration;
 import java2typescript.jackson.module.grammar.LocalDateTimeType;
 
 /**
- * @author £ukasz Janczara, PL
+ * @author Lukasz Janczara, PL
  */
 public class TSJsonLocalDateTimeFormatVisitor extends ABaseTSJsonFormatVisitor<LocalDateTimeType> implements
         JsonAnyFormatVisitor {
