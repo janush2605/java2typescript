@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
 public class DescriptorGeneratorTest {
@@ -199,7 +200,7 @@ public class DescriptorGeneratorTest {
 
         DefinitionGenerator definitionGenerator = new DefinitionGenerator(mapper);
 
-        Module tsModule = definitionGenerator.generateTypeScript("modName", singletonList(AdministrationDTO.class), null, ComplexType.class);
+        Module tsModule = definitionGenerator.generateTypeScript("modName", singletonList(AdministrationDTO.class), null, ComplexType.class, emptyList());
 
         tsModule.write(out);
     }
@@ -214,7 +215,7 @@ public class DescriptorGeneratorTest {
 
         DefinitionGenerator definitionGenerator = new DefinitionGenerator(mapper);
 
-        Module tsModule = definitionGenerator.generateTypeScript("tsm", singletonList(DoseDTO.class), null, ComplexType.class);
+        Module tsModule = definitionGenerator.generateTypeScript("tsm", singletonList(DoseDTO.class), null, ComplexType.class, emptyList());
         tsModule.write(out);
 
         Module medModule = definitionGenerator.generateTypeScript("med", singletonList(AdministrationDTO.class), null, ComplexType.class, asList(tsModule));

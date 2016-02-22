@@ -38,6 +38,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static java2typescript.jaxrs.model.ParamType.*;
@@ -132,7 +133,7 @@ public class ServiceDescriptorGenerator {
 
         // Generates Typescript module out of service classses definition
         DefinitionGenerator defGen = new DefinitionGenerator(mapper);
-        Module module = defGen.generateTypeScript(moduleName, classes, null, ComplexType.class);
+        Module module = defGen.generateTypeScript(moduleName, classes, null, ComplexType.class, Collections.<Module>emptyList());
 
         // For each rest service, update methods with parameter names, got from Rest service descriptor
         for (RestService restService : generateRestServices(classes)) {

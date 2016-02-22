@@ -34,21 +34,6 @@ public class DefinitionGenerator {
      * @param classes    Class for which generating definition
      * @throws JsonMappingException
      */
-    public Module generateTypeScript(String moduleName, Collection<? extends Class<?>> classes, Configuration conf)
-            throws JsonMappingException {
-        return generateTypeScript(moduleName, classes, conf, null, Collections.<Module>emptyList());
-    }
-
-    /**
-     * @param moduleName Module to be filled with named types (classes, enums, ...)
-     * @param classes    Class for which generating definition
-     * @throws JsonMappingException
-     */
-    public Module generateTypeScript(String moduleName, Collection<? extends Class<?>> classes, Configuration configuration, Class classAnnotation)
-            throws JsonMappingException {
-        return generateTypeScript(moduleName, classes, configuration, classAnnotation, Collections.<Module>emptyList());
-    }
-
     public Module generateTypeScript(String moduleName, Collection<? extends Class<?>> classes, Configuration configuration,
                                      Class classAnnotation, List<Module> refenceModules) throws JsonMappingException {
         if (configuration == null) {

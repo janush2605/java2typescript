@@ -15,6 +15,7 @@
  ******************************************************************************/
 package java2typescript.jackson.module;
 
+import com.cg.helix.schemadictionary.annotation.ComplexType;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java2typescript.jackson.module.grammar.Module;
 import org.testng.annotations.Test;
