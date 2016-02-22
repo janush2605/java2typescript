@@ -1,7 +1,4 @@
-/*
- * DeclarationConfig2
- * Date of creation: 2016-02-10
- * 
+/**
  * Copyright (c) CompuGROUP Software GmbH,
  * This software is the confidential and proprietary information of
  * CompuGROUP Software GmbH. You shall not disclose such confidential
